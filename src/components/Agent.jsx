@@ -1,3 +1,4 @@
+// Functional component representing an agent
 const Agent = ({ agent, onClick = () => {} }) => (
     <div className="result-item" onClick={onClick}>
         <p><strong>{agent.name}</strong></p>
@@ -7,4 +8,5 @@ const Agent = ({ agent, onClick = () => {} }) => (
     </div>
 )
 
+// Export the Agent component
 export default Agent;

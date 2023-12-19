@@ -17,22 +17,25 @@ const options = [{
 }];
 
 const Checkout = ({ user }) => {
+    // Function to get the current location object from the router
     const location = useLocation();
+    // State to track the index of the selected service option
     const [selectedService, setSelectedService] = useState(0);
-    
+    // Refs to store references to the PayPal button and the selected service details
     const paypalButtonRef = useRef();
     const selectedReference = useRef();
-
+    // Extract the selected agent from the location state
     const selectedAgent = location.state.agent;
-    console.log({selectedAgent, user})
-
+    console.log({ selectedAgent, user })
+    // Effect hook to initialize and update the PayPal button
     useEffect(() => {
         if (!paypalButtonRef.current) return;
-        
+
         paypalButtonRef.current.innerHTML = '';
-        
+
         window.paypal
             .Buttons({
+                // Function to create a PayPal order with transaction details
                 createOrder: function (data, actions) {
                     const value = selectedReference.current.price
 
@@ -43,6 +46,7 @@ const Checkout = ({ user }) => {
                         }],
                     });
                 },
+                // Function to handle approval after the user completes the PayPal transaction
                 onApprove: function (data, actions) {
                     // Capture the funds from the transaction
                     return actions.order.capture().then(function (details) {
@@ -50,21 +54,23 @@ const Checkout = ({ user }) => {
                         alert(
                             "Transaction completed by " + details.payer.name.given_name
                         );
-                        // Handle post-transaction logic here
                     });
                 },
             })
+            // Render the PayPal button in the specified container
             .render(paypalButtonRef.current);
     }, [paypalButtonRef])
 
+    // Effect hook to update the selected service details when the selectedService state changes
     useEffect(() => {
         selectedReference.current = options[selectedService];
     }, [selectedService])
 
+    // Render method for the Checkout component
     return (
         <div>
             <h1>Checkout</h1>
-            
+
             <Agent agent={selectedAgent} />
 
             <div id="serviceSelection" className="service-selection-container">

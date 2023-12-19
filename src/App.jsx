@@ -11,7 +11,10 @@ import FindTechnician from './pages/FindTechnician';
 import Appointments from './pages/Appointments';
 import Checkout from './pages/Checkout';
 
+// Main 'App' component
 function App() {
+    
+  // Accessing user data from context
   const { state: { user } } = useContext(Context);
 
   return (
@@ -41,4 +44,5 @@ function App() {
   )
 }
 
+// Exporting the 'App' component as the default export
 export default App

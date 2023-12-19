@@ -12,21 +12,27 @@ const FindTechnician = () => {
     const [zipCode, setZipCode] = useState('');
     const [results, setResults] = useState([]);
     const agents = useAgents()
-    
+
+    // Handle form submission
     const handleSubmit = function (event) {
         event.preventDefault();
         geocodeZipCode(zipCode);
     }
-    
+
+    // Handle input change
     const handleChange = (event) => setZipCode(event.target.value)
-    
+
+    // Display car washes on the map based on the provided zip code
     const displayCarWashes = (zipCode) => {
+        // Filter agents based on the last part of the address (zip code)
         const washes = agents.filter(agent => agent.address.split(' ').pop() === zipCode);
 
+        // Set map zoom level
         map.setZoom(11);
-    
+
         if (!washes) return;
-    
+
+        // Display markers for each car wash
         washes.forEach(wash => {
             const name = wash.name || wash.agents
             const marker = {
@@ -43,9 +49,11 @@ const FindTechnician = () => {
             new window.google.maps.Marker(marker);
         });
 
+        // Update results state
         setResults(washes)
     }
 
+    // Geocode the provided zip code and display car washes
     const geocodeZipCode = (zipCode) => {
         geoCoder.geocode({ 'address': zipCode }, function (results, status) {
             if (status == 'OK') {
@@ -59,7 +67,8 @@ const FindTechnician = () => {
 
     const checkout = agent => () => navigate('/checkout', { state: { agent } })
 
-    useEffect(() => {        
+    // Initialize the map and geoCoder on component mount
+    useEffect(() => {
         if (!window.google || !mapRef?.current) return;
 
         const map = new window.google.maps.Map(mapRef.current, {
@@ -72,6 +81,7 @@ const FindTechnician = () => {
         setGeoCoder(new window.google.maps.Geocoder());
     }, [mapRef])
 
+    // Render the component
     return (
         <div id="MapSection">
             <h1>Find my Technician</h1>
