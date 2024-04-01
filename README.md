@@ -11,6 +11,15 @@ After choosing an agent, you will be redirected to the checkout page.
 Deployment:
 https://carwashapp-69d56.web.app
 
+To do:
+user registeration page
+connect data with the user logged in and user being able to see only relevent information
+user add a car to personal garage(page)
+user remove a car from personal garage(page)
+user being able to remove or rechedule an appointment from Appointments page
+data vaildition
+check the user chosen time and date for availability(makeing sure there is not other appointments at the same time
+Mobile friendly CSS
 
 # React + Vite
 
